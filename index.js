@@ -2,13 +2,20 @@ require('dotenv').config()
 const express = require("express")
 const cors = require("cors")
 const port = process.env.PORT || 5000
+const cookieParser = require('cookie-parser')
 const app = express()
+const jwt = require("jsonwebtoken")
 
 
 
 // mid were
-app.use(cors())
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    credentials: true
+}))
 app.use(express.json())
+
+app.use(cookieParser())
 
 
 
@@ -44,7 +51,15 @@ async function run() {
             res.send(result)
         })
 
-        app.post("/api/user/")
+
+        // adding cookie
+        app.post("/api/user/token", async (req, res) => {
+            const email = req.body
+            const token = jwt.sign(email, process.env.SECRET, { expiresIn: "1h" })
+            res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' }).send({ "messege": "success" })
+
+
+        })
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
