@@ -57,8 +57,13 @@ async function run() {
             const email = req.body
             const token = jwt.sign(email, process.env.SECRET, { expiresIn: "1h" })
             res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' }).send({ "messege": "success" })
+        })
 
 
+        // removing cookie after logout
+        app.post("/api/logout", async (req, res) => {
+
+            res.clearCookie("token", { maxAge: 0 }).send({ "messege": "successfuly removed cookite" })
         })
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
