@@ -66,6 +66,19 @@ async function run() {
             res.clearCookie("token", { maxAge: 0 }).send({ "messege": "successfuly removed cookite" })
         })
 
+
+        // all created Assignments
+        app.get("/api/assignments", async (req, res) => {
+            const cursor = assignmentCollection.find()
+            const result = await cursor.toArray()
+            res.send(result)
+
+        })
+
+
+        // app.post("api/user/create/assignment",req)
+
+
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
