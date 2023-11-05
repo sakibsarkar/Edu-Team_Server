@@ -75,8 +75,17 @@ async function run() {
 
         })
 
+        // difficulty assignment data based data
+        app.get("/api/assignments/:difficulty", async (req, res) => {
+            const difficultyLevel = req.params.difficulty
+            const find = { difficulty: difficultyLevel }
+            const result = await assignmentCollection.find(find).toArray()
+            res.send(result)
+        })
 
-        // app.post("api/user/create/assignment",req)
+
+
+
 
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
