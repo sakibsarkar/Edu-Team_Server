@@ -21,7 +21,7 @@ app.use(cookieParser())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER_NAME}:${process.env.DB_USER_PASS}@cluster0.xbiw867.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -85,6 +85,8 @@ async function run() {
         // })
 
 
+
+
         app.get("/api/assignments", async (req, res) => {
             const difficultyLevel = req.query.level
             const limit = parseInt(req.query.limit)
@@ -100,11 +102,21 @@ async function run() {
             }
 
             const result = await assignmentCollection.find(findQuery).skip(skip).limit(limit).toArray()
+            const total = result.length
+            res.send({ result, total })
+
+
+
+
+        })
+
+
+        // id based assignment
+        app.get("/api/assignment/:id", async (req, res) => {
+            const id = req.params.id
+            const find = { _id: new ObjectId(id) }
+            const result = await assignmentCollection.find(find).toArray()
             res.send(result)
-
-
-
-
         })
 
 
