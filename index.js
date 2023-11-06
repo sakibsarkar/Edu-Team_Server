@@ -61,7 +61,7 @@ async function run() {
 
 
         // adding a new assignment
-        app.post("/api/user/assignment/post", async (req, res) => {
+        app.post("/api/user/assignment/post", varifyToekn, async (req, res) => {
             const body = req.body
             const result = await assignmentCollection.insertOne(body)
             res.send(result)
@@ -134,7 +134,7 @@ async function run() {
 
 
         // Assignmnet id based assignments
-        app.get("/api/assignment/:id", async (req, res) => {
+        app.get("/api/assignment/:id", varifyToekn, async (req, res) => {
             const id = req.params.id
             const find = { _id: new ObjectId(id) }
             const result = await assignmentCollection.find(find).toArray()
@@ -155,6 +155,21 @@ async function run() {
             const result = await assignmentCollection.find(filter).toArray()
             res.send(result)
 
+        })
+
+
+        // user all submitted assignment
+        app.get("/api/mySubmission/:email", varifyToekn, async (req, res) => {
+            const user = req.params.email
+            const userIdentity = req.user.email
+            if (user !== userIdentity) {
+                res.status(403).send({ messege: "unAuthoaized Access" })
+                return
+            }
+            const find = { submitedBy: user }
+
+            const result = await submissionColltection.find(find).toArray()
+            res.send(result)
         })
 
 
