@@ -57,6 +57,7 @@ async function run() {
 
 
         const assignmentCollection = client.db("AssignmentDB").collection("AssignmentCollection")
+        const submissionColltection = client.db("AssignmentDB").collection("submissionColltection")
 
 
         // adding a new assignment
@@ -132,7 +133,7 @@ async function run() {
         })
 
 
-        // id based assignment
+        // Assignmnet id based assignments
         app.get("/api/assignment/:id", async (req, res) => {
             const id = req.params.id
             const find = { _id: new ObjectId(id) }
@@ -141,7 +142,7 @@ async function run() {
         })
 
 
-        // email based created assignments
+        // user email based created assignments
         app.get("/api/myAssignments/:email", varifyToekn, async (req, res) => {
             const email = req.params.email
             const userIdentity = req.user
@@ -154,6 +155,14 @@ async function run() {
             const result = await assignmentCollection.find(filter).toArray()
             res.send(result)
 
+        })
+
+
+        // individual assignment submission
+        app.post("/api/assignment/submit", async (req, res) => {
+            const body = req.body
+            const result = await submissionColltection.insertOne(body)
+            res.send(result)
         })
 
 
