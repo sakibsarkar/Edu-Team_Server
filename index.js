@@ -18,7 +18,22 @@ app.use(express.json())
 app.use(cookieParser())
 
 
+const varifyToekn = (req, res, next) => {
+    const token = req.cookies.token
+    if (!token) {
+        res.status(401).send({ messege: "unAuthorized Access" })
+        return
+    }
 
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ messege: "Access Forbidden" })
+        }
+        req.user = decoded
+        next()
+    })
+
+}
 
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -125,6 +140,21 @@ async function run() {
             res.send(result)
         })
 
+
+        // email based created assignments
+        app.get("/api/myAssignments/:email", varifyToekn, async (req, res) => {
+            const email = req.params.email
+            const userIdentity = req.user
+            if (email !== userIdentity.email) {
+                res.status(403).send({ messege: "unAuthoaized Access" })
+                return
+            }
+
+            const filter = { uploadedBy: email }
+            const result = await assignmentCollection.find(filter).toArray()
+            res.send(result)
+
+        })
 
 
 
