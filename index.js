@@ -68,21 +68,44 @@ async function run() {
 
 
         // all created Assignments
+        // app.get("/api/assignments", async (req, res) => {
+        //     const cursor = assignmentCollection.find()
+        //     const result = await cursor.toArray()
+        //     res.send(result)
+
+        // })
+
+        // // difficulty assignment data based data
+        // app.get("/api/assignments/:difficulty", async (req, res) => {
+        //     const difficultyLevel = req.params.difficulty
+        //     const find = { difficulty: difficultyLevel }
+        //     const result = await assignmentCollection.find(find).toArray()
+        //     const total = await assignmentCollection.countDocuments(find)
+        //     res.send({ result, total })
+        // })
+
+
         app.get("/api/assignments", async (req, res) => {
-            const cursor = assignmentCollection.find()
-            const result = await cursor.toArray()
+            const difficultyLevel = req.query.level
+            const limit = parseInt(req.query.limit)
+            const page = parseInt(req.query.page)
+
+
+            // conditions
+            let findQuery = {}
+            const skip = page * limit
+
+            if (difficultyLevel) {
+                findQuery = { difficulty: difficultyLevel }
+            }
+
+            const result = await assignmentCollection.find(findQuery).skip(skip).limit(limit).toArray()
             res.send(result)
 
-        })
 
-        // difficulty assignment data based data
-        app.get("/api/assignments/:difficulty", async (req, res) => {
-            const difficultyLevel = req.params.difficulty
-            const find = { difficulty: difficultyLevel }
-            const result = await assignmentCollection.find(find).toArray()
-            res.send(result)
-        })
 
+
+        })
 
 
 
