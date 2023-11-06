@@ -97,12 +97,18 @@ async function run() {
             let findQuery = {}
             const skip = page * limit
 
+
             if (difficultyLevel) {
                 findQuery = { difficulty: difficultyLevel }
+                const result = await assignmentCollection.find(findQuery).skip(skip).limit(limit).toArray()
+                const total = (await assignmentCollection.find(findQuery).toArray()).length
+
+                res.send({ result, total })
+                return
             }
 
             const result = await assignmentCollection.find(findQuery).skip(skip).limit(limit).toArray()
-            const total = result.length
+            const total = await assignmentCollection.countDocuments()
             res.send({ result, total })
 
 
