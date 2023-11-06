@@ -1,0 +1,55 @@
+{
+    "result": [
+        {
+            "_id": "65488f0aa45204143376f5a1",
+            "title": "JavaScript Mathematical Operator",
+            "thumbURL": "https://i.ytimg.com/vi/d2LAgmmN6hw/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCmaudcnoCemJLP3pj6KiutAFSSkw",
+            "marks": 60,
+            "description": "The JavaScript Mathematical Operator Assignment Project is an engaging and educational project designed to help you gain a deep understanding of mathematical operators in JavaScript. JavaScript is a versatile and powerful programming language used for web development",
+            "uploadedBy": "Najmul Islam Sakib",
+            "dueDate": "2023/10/8",
+            "difficulty": "Easy"
+        },
+        {
+            "_id": "6548938fa45204143376f5a2",
+            "title": "Javascripti light bulb",
+            "thumbURL": "https://i.ytimg.com/vi/OJdn-QlPCOY/sddefault.jpg",
+            "marks": 60,
+            "description": "In this exciting assignment project, you will embark on a journey to create a captivating and interactive web-based JavaScript light bulb using HTML, CSS, and JavaScript. You will harness the power of these three essential web technologies",
+            "uploadedBy": "Najmul Islam Sakib",
+            "dueDate": "2023/10/9",
+            "difficulty": "Easy"
+        },
+        {
+            "_id": "65489451a45204143376f5a3",
+            "title": "JavaScript Calculator",
+            "thumbURL": "https://i.pinimg.com/736x/b2/f6/ae/b2f6ae2d8fc13b0ecedcd18be691c5cd.jpg",
+            "marks": 60,
+            "description": "Build a basic calculator application with simple arithmetic operations, with some functionality and features. ",
+            "uploadedBy": "Najmul Islam Sakib",
+            "dueDate": "2023/10/4",
+            "difficulty": "Easy"
+        },
+        {
+            "_id": "654894aaa45204143376f5a4",
+            "title": "JavaScript Game Development",
+            "thumbURL": "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210423095754/8-Best-Javascript-Game-Engines.jpg",
+            "marks": 60,
+            "description": "Create a challenging game using JavaScript, such as a platformer or a puzzle game.\nthe game should be support all devices and platform",
+            "uploadedBy": "Najmul Islam Sakib",
+            "dueDate": "2023/10/29",
+            "difficulty": "Hard"
+        },
+        {
+            "_id": "65489706a45204143376f5a6",
+            "title": "Advanced CSS Animation",
+            "thumbURL": "https://i.ytimg.com/vi/dZ5AX6OFNZw/maxresdefault.jpg",
+            "marks": 60,
+            "description": "mplement complex CSS animations and transitions to create an engaging user interface.",
+            "uploadedBy": "Najmul Islam Sakib",
+            "dueDate": "2023/10/15",
+            "difficulty": "Hard"
+        }
+    ],
+    "total": 5
+}

@@ -181,6 +181,26 @@ async function run() {
         })
 
 
+        // assignment update
+        app.put("/api/assignment/update/:id", async (req, res) => {
+            const id = req.params.id
+            const { title, thumbURL, marks, description, dueDate, difficulty } = req.body
+            console.log(req.body)
+            const find = { _id: new ObjectId(id) }
+            const update = {
+                $set: {
+                    title: title,
+                    thumbURL: thumbURL,
+                    marks: marks,
+                    description: description,
+                    dueDate: dueDate,
+                    difficulty: difficulty
+                }
+            }
+            const result = await assignmentCollection.updateOne(find, update)
+            res.send(result)
+        })
+
 
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
