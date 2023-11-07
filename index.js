@@ -103,6 +103,15 @@ async function run() {
 
 
 
+        app.get("/api/users/submissions", async (req, res) => {
+            const cursor = submissionColltection.find()
+            const result = await cursor.toArray()
+         
+            res.send(result)
+
+        })
+
+
         app.get("/api/assignments", async (req, res) => {
             const difficultyLevel = req.query.level
             const limit = parseInt(req.query.limit)
@@ -200,6 +209,9 @@ async function run() {
             const result = await assignmentCollection.updateOne(find, update)
             res.send(result)
         })
+
+
+        // all submitted assignment
 
 
 
