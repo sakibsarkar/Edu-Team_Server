@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken")
 
 // mid were
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://assignment-11-a9fb7.web.app"],
     credentials: true
 }))
 app.use(express.json())
@@ -102,11 +102,14 @@ async function run() {
 
 
 
-
-        app.get("/api/users/submissions", async (req, res) => {
-            const cursor = submissionColltection.find()
+        // all pending assignments
+        app.get("/api/users/submissions", varifyToekn, async (req, res) => {
+            const find = {
+                status: "pending"
+            }
+            const cursor = submissionColltection.find(find)
             const result = await cursor.toArray()
-         
+
             res.send(result)
 
         })
@@ -211,8 +214,32 @@ async function run() {
         })
 
 
-        // all submitted assignment
+        // delete assignment
+        app.delete("/api/delete/assignment/:id", varifyToekn, async (req, res) => {
+            const id = req.params.id
+            const find = { _id: new ObjectId(id) }
+            const result = await assignmentCollection.deleteOne(find)
+            res.send(result)
+        })
 
+
+        // give mark for submited assignment
+        app.put("/api/giveMark/:id", varifyToekn, async (req, res) => {
+            const id = req.params.id
+            const { feedback, givenMarks } = req.body
+
+            const find = { _id: new ObjectId(id) }
+            const update = {
+                $set: {
+                    feedback: feedback,
+                    ObtainMarks: givenMarks,
+                    status: "completed"
+                }
+            }
+
+            const result = await submissionColltection.updateOne(find, update)
+            res.send(result)
+        })
 
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
