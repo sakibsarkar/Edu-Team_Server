@@ -56,8 +56,46 @@ async function run() {
         // await client.db("admin").command({ ping: 1 });
 
 
+        const usersCollection = client.db("AssignmentDB").collection("usersCollection")
         const assignmentCollection = client.db("AssignmentDB").collection("AssignmentCollection")
         const submissionColltection = client.db("AssignmentDB").collection("submissionColltection")
+
+
+
+        // add a new user to the db
+        app.put("/api/new/user", async (req, res) => {
+            const body = req.body
+            const email = body.email
+            const isExist = await usersCollection.find({ email: email }).toArray()
+            console.log(isExist, email);
+            if (isExist.length > 0) {
+                return res.send({ messege: "already exist in db" })
+
+            }
+
+            const result = await usersCollection.insertOne(body)
+            res.send(result)
+        })
+
+
+
+        // get user role 
+        app.get("/api/user/role", varifyToekn, async (req, res) => {
+            const email = req.query.email
+
+            const result = usersCollection.findOne({ email: email }, {
+                projection: {
+                    _id: 0,
+                    role: 1
+                }
+            }
+            )
+            res.send(result)
+
+        })
+
+
+
 
 
         // adding a new assignment
@@ -71,7 +109,7 @@ async function run() {
         // adding cookie
         app.post("/api/user/token", async (req, res) => {
             const email = req.body
-            const token = jwt.sign(email, process.env.SECRET, { expiresIn: "1h" })
+            const token = jwt.sign(email, process.env.SECRET, { expiresIn: "365d" })
             res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' }).send({ "messege": "success" })
         })
 
