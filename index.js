@@ -61,6 +61,21 @@ async function run() {
         const submissionColltection = client.db("AssignmentDB").collection("submissionColltection")
 
 
+        const varifyAdmin = async (req, res, next) => {
+            const email = req?.user?.email
+
+
+            const result = await usersCollection.findOne({ email: email })
+
+            if (!result || result?.role !== "admin") {
+                return res.status(401).send({ messege: "unauthorized access" })
+            }
+
+            next()
+
+        }
+
+
 
         // add a new user to the db
         app.put("/api/new/user", async (req, res) => {
@@ -83,7 +98,7 @@ async function run() {
         app.get("/api/user/role", varifyToekn, async (req, res) => {
             const email = req.query.email
 
-            const result = usersCollection.findOne({ email: email }, {
+            const result = await usersCollection.findOne({ email: email }, {
                 projection: {
                     _id: 0,
                     role: 1
@@ -99,7 +114,7 @@ async function run() {
 
 
         // adding a new assignment
-        app.post("/api/user/assignment/post", varifyToekn, async (req, res) => {
+        app.post("/api/user/assignment/post", varifyToekn, varifyAdmin, async (req, res) => {
             const body = req.body
             const result = await assignmentCollection.insertOne(body)
             res.send(result)
@@ -141,7 +156,7 @@ async function run() {
 
 
         // all pending assignments
-        app.get("/api/users/submissions", varifyToekn, async (req, res) => {
+        app.get("/api/users/submissions", varifyToekn, varifyAdmin, async (req, res) => {
             const find = {
                 status: "pending"
             }
