@@ -125,7 +125,12 @@ async function run() {
         app.post("/api/user/token", async (req, res) => {
             const email = req.body
             const token = jwt.sign(email, process.env.SECRET, { expiresIn: "365d" })
-            res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none' }).send({ "messege": "success" })
+            const oneYearInSeconds = 365 * 24 * 60 * 60; // 365 days in seconds
+            const expirationDate = new Date(Date.now() + oneYearInSeconds * 1000); // Convert seconds to milliseconds
+
+            res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none', expires: expirationDate }).send({ "message": "success" });
+
+
         })
 
 
