@@ -1,5 +1,5 @@
-# Center_Point_Server
-### Client Side repository - [Center Point Server](https://github.com/sakibsarkar/Edu-Team_Server)
+# Edu-Team Server
+### Client Side repository - [Edu-Team Server](https://github.com/sakibsarkar/Edu-Team_Server)
 
 
 ## ⚙️Technology used in this project
